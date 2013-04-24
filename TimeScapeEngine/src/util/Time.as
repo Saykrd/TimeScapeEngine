@@ -30,9 +30,11 @@ package util
 			_date.time += _deltaTime
 		}
 		
+		
 		public static function get applicationStartTime():Number {
 			return _appStartTime
 		}
+		
 		
 		public static function get deltaTime():Number {
 			return _deltaTime

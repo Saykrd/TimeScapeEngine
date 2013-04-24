@@ -29,7 +29,7 @@ package
 		private function onFrame(e:Event):void {
 			Time.updateTime();
 			
-			trace(Time.deltaTime, Time.epochTime, getTimer());
+			//trace(Time.deltaTime, Time.epochTime, getTimer());
 		}
 		
 	}
