@@ -1,8 +1,10 @@
 package 
 {
+	import architecture.SystemContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getTimer;
+	import interfaces.ISystem;
 	import util.Time;
 	
 	/**
@@ -29,6 +31,9 @@ package
 		private function onFrame(e:Event):void {
 			Time.updateTime();
 			
+			var myClass:Class = SystemContainer;
+			
+			trace(myClass.test);
 			//trace(Time.deltaTime, Time.epochTime, getTimer());
 		}
 		

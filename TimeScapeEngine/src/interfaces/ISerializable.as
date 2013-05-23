@@ -5,7 +5,7 @@ package interfaces
 	 * ...
 	 * @author Saykrd
 	 */
-	public interface ISerializableObject extends ITransientObject
+	public interface ISerializable
 	{
 		function toObject():Object
 		function fromObject(data:Object):void

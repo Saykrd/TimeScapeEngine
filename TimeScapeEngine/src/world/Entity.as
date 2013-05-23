@@ -1,20 +1,23 @@
 package world 
 {
 	import flash.utils.Dictionary;
-	import interfaces.ISerializableObject;
+	import interfaces.ISerializable;
+	import interfaces.ITransient;
 	import util.Util;
 	/**
 	 * ...
 	 * @author Saykrd
 	 */
-	public class Entity implements ISerializableObject
+	public class Entity implements ISerializable, ITransient
 	{
+		
+		private static var _numInstances:int = 0
 		
 		protected var _id:String = ""
 		
 		private var _stats:Dictionary
 		
-		public function Entity() 
+		public function Entity()
 		{
 			_stats = new Dictionary
 		}

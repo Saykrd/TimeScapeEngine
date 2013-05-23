@@ -42,13 +42,6 @@ package world
 			
 		}
 		
-		public function addEntity():void {
-			
-		}
-		
-		public function addObject():void {
-			
-		}
 		
 		public function newScene():void {
 			
