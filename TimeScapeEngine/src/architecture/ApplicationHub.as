@@ -30,29 +30,29 @@ package architecture
 				throw new Error("[ApplicationHub] !! Attempt to run duplicate system set of id " + systemSet.containerID + " in group " + groupID) 
 			}
 			// Get all handler requests from each system
-			requests = queryRequests(systemSet)
+			requests = queryRequests(systemSet);
 			// Get all handlers already in this group
-			databases = getDatabasesInGroup(groupID)
+			databases = getDatabasesInGroup(groupID);
 			
 			// Create all databases that are required
 			for each(request in requests) {
 				var reqList:Vector.<Class> = request.requests;
 				for each(var cls:Class in reqList) {
 					
-					var hasData:Boolean
+					var hasData:Boolean;
 					
 					for each(database in databases) {
 						if (database is cls) {
-							hasData = true
+							hasData = true;
 							break
 						}
 					}
 					
 					if (!hasData) {
 						var db:ADatabase = new cls;
-						db.groupID = group
-						databases.push(db)
-						_databases.push(db)
+						db.groupID = group;
+						databases.push(db);
+						_databases.push(db);
 					}
 				}
 			}
@@ -93,7 +93,7 @@ package architecture
 			systemSet.groupID = groupID;
 			systemSet.initialize();
 			
-			_systemSets.push(systemSet)
+			_systemSets.push(systemSet);
 		}
 		
 		
@@ -107,6 +107,7 @@ package architecture
 			var databases:Vector.<ADatabase> = queryDatabases(systemSet, groupID)
 			var trash:Vector.<ADatabase> = new Vector.<ADatabase>
 			
+			// Clean up all the databases that arent in use anymore due to the shutdown of this system
 			for each(var database:ADatabase in databases) {
 				var inUse:Boolean = false;
 				for each(var ss:SystemContainer in systemSets) {
@@ -151,7 +152,7 @@ package architecture
 		}
 		
 		private function removeDatabase(database:ADatabase):void {
-			for (var i:int = _databases.length; i >= 0 && _databases.length != 0; i--) {
+			for (var i:int = _databases.length - 1; i >= 0 && _databases.length != 0; i--) {
 				var db:ADatabase = _databases[i]
 				if (db == database) {
 					db.destroy();
@@ -162,8 +163,8 @@ package architecture
 		}
 		
 		
-		private function removeSystem(systemSetID:String, groupID:String = null):SystemContainer {
-			for (var i:int = _systemSets.length; i >= 0 && _systemSets.length != 0; i--) {
+		private function removeSystem(systemSetID:String, groupID:String = null):void {
+			for (var i:int = _systemSets.length - 1; i >= 0 && _systemSets.length != 0; i--) {
 				var systemSet:SystemContainer = _systemSets[i]
 				if (systemSet.containerID == systemSetID && (!groupID || systemSet.groupID == groupID)) {
 					systemSet.kill();
@@ -172,7 +173,7 @@ package architecture
 				}
 			}
 			
-			return null;
+			return;
 		}
 		
 		private function getSystemSetByID(systemSetID:String, groupID:String = null):SystemContainer {
