@@ -1,6 +1,5 @@
 package 
 {
-	import architecture.SystemContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;

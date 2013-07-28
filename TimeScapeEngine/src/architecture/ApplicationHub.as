@@ -10,20 +10,20 @@ package architecture
 	public class ApplicationHub 
 	{
 		
-		private static const DEFAULT_SYSTEM_GROUP:String = "defaultSystemGroup"
+		private static const DEFAULT_STATE_GROUP:String = "defaultStateGroup"
 		
 		private var _databases:Vector.<ADatabase>
-		private var _systemSets:Vector.<SystemContainer>
-		private var _activeSets:Dictionary
+		private var _appStates:Vector.<AppState>
+		private var _activeStates:Dictionary
 		
 		public function ApplicationHub() 
 		{
 			_databases    = new Vector.<ADatabase>;
-			_systemSets   = new Vector.<SystemContainer>;
-			_activeSets   = new Dictionary
+			_appStates   = new Vector.<AppState>;
+			_activeStates   = new Dictionary
 		}
 			
-		protected function run(systemSet:SystemContainer, groupID:String = DEFAULT_SYSTEM_GROUP):void {
+		protected function run(appState:AppState, groupID:String = DEFAULT_STATE_GROUP):void {
 			var databases:Vector.<ADatabase>;  
 			var requests:Vector.<DatabaseRequest>;
 			var database:ADatabase;
@@ -31,14 +31,14 @@ package architecture
 			var reqList:Vector.<Class>;
 			var cls:Class;
 			
-			trace("Setting up system set " + systemSet.containerID + " in system group " + groupID)
+			trace("Setting up system set " + appState.stateID + " in system group " + groupID)
 			
-			if (getSystemSetByID(systemSet.containerID, groupID)) {
-				throw new Error("[ApplicationHub] !! Attempt to run duplicate system set of id " + systemSet.containerID + " in group " + groupID) 
+			if (getSystemSetByID(appState.stateID, groupID)) {
+				throw new Error("[ApplicationHub] !! Attempt to run duplicate system set of id " + appState.stateID + " in group " + groupID) 
 			}
 			// Get all handler requests from each system
 			trace("Getting handlers request...")
-			requests = queryRequests(systemSet);
+			requests = queryRequests(appState);
 			// Get all handlers already in this group
 			trace("Getting handlers already in this group...")
 			databases = getDatabasesInGroup(groupID);
@@ -102,23 +102,23 @@ package architecture
 				request.transact();
 			}
 			
-			systemSet.groupID = groupID;
-			systemSet.initialize();
-			activateSet(systemSet.containerID, groupID)
+			appState.groupID = groupID;
+			appState.initialize();
+			activateState(appState.stateID, groupID)
 			
-			_systemSets.push(systemSet);
+			_appStates.push(appState);
 			Util.dumpVector(_databases)
 		}
 		
 		
-		public function end(systemSetID:String, groupID:String = null):void {
-			trace("Ending system set: " + systemSetID + " in group " + groupID)
-			var systemSet:SystemContainer = getSystemSetByID(systemSetID, groupID)
+		public function end(stateID:String, groupID:String = null):void {
+			trace("Ending state: " + stateID + " in group " + groupID)
+			var appState:AppState = getSystemSetByID(stateID, groupID)
 			
-			if (!systemSet) return
+			if (!appState) return
 			
-			groupID = groupID || systemSet.groupID
-			var systemSets:Vector.<SystemContainer> = getSystemSetGroup(groupID)
+			groupID = groupID || appState.groupID
+			var systemSets:Vector.<AppState> = getStateGroup(groupID)
 			var databases:Vector.<ADatabase> = getDatabasesInGroup(groupID)
 			var trash:Vector.<ADatabase> = new Vector.<ADatabase>
 			
@@ -126,8 +126,8 @@ package architecture
 			trace("Gathering all databases that are not in use anymore..")
 			for each(var database:ADatabase in databases) {
 				var inUse:Boolean = false;
-				for each(var ss:SystemContainer in systemSets) {
-					if (ss == systemSet) continue;
+				for each(var ss:AppState in systemSets) {
+					if (ss == appState) continue;
 					
 					var requests:Vector.<DatabaseRequest> = queryRequests(ss)
 					
@@ -149,7 +149,7 @@ package architecture
 				}
 			}
 			
-			removeSystem(systemSetID, groupID);
+			removeState(stateID, groupID);
 			
 			for each(var db:ADatabase in trash) {
 				removeDatabase(db);
@@ -160,19 +160,19 @@ package architecture
 		
 		public function endGroup(groupID:String):void {
 			trace("Ending system group:" + groupID)
-			var systemSets:Vector.<SystemContainer> = getSystemSetGroup(groupID);
+			var systemSets:Vector.<AppState> = getStateGroup(groupID);
 			var databases:Vector.<ADatabase> = getDatabasesInGroup(groupID);
 			
-			for each(var systemSet:SystemContainer in systemSets) {
-				end(systemSet.containerID, groupID)
+			for each(var appState:AppState in systemSets) {
+				end(appState.stateID, groupID)
 			}
 			
-			_activeSets[groupID] = null
+			_activeStates[groupID] = null
 		}
 		
 		public function endAll():void {
-			trace("Ending all systemsets...")
-			Util.dumpVector(_systemSets)
+			trace("Ending all states...")
+			Util.dumpVector(_appStates)
 			
 			var groups:Array = getGroupList()
 			for (var i:int = 0; i < groups.length; i++) {
@@ -181,73 +181,73 @@ package architecture
 			}
 			
 			trace("Is everything gone?")
-			Util.dumpVector(_systemSets)
+			Util.dumpVector(_appStates)
 		}
 		
 		public function update():void {
-			for (var i:int = 0; i <  _systemSets.length; i++) {
-				var ss:SystemContainer = _systemSets[i];
-				var ssid:String = ss.containerID;
+			for (var i:int = 0; i <  _appStates.length; i++) {
+				var ss:AppState = _appStates[i];
+				var ssid:String = ss.stateID;
 				var gid:String  = ss.groupID;
 				
-				if (isSetActive(ssid, gid)){
+				if (isStateActive(ssid, gid)){
 					ss.update()
 				}
 			}
 		}
 		
-		public function activateSet(setID:String, groupID:String):void {
-			var data:Object = _activeSets[groupID] || { };
+		public function activateState(setID:String, groupID:String):void {
+			var data:Object = _activeStates[groupID] || { };
 			
 			data[setID] = true
 			
-			if (!_activeSets[groupID]) {
-				_activeSets[groupID] = data
+			if (!_activeStates[groupID]) {
+				_activeStates[groupID] = data
 				data._active = true
 			}
 		}
 		
-		public function haltSet(setID:String, groupID:String):void {
-			if (!_activeSets[groupID]) {
+		public function haltState(setID:String, groupID:String):void {
+			if (!_activeStates[groupID]) {
 				return
 			}
-			var data:Object = _activeSets[groupID];
+			var data:Object = _activeStates[groupID];
 			data[setID] = false
 		}
 		
 		public function activateGroup(groupID:String):void {
-			var data:Object = _activeSets[groupID] || { };
+			var data:Object = _activeStates[groupID] || { };
 			
 			data._active = true
 			
-			if (!_activeSets[groupID]) {
-				_activeSets[groupID] = data
+			if (!_activeStates[groupID]) {
+				_activeStates[groupID] = data
 			}
 		}
 		
 		public function haltGroup(groupID:String):void {
-			if (!_activeSets[groupID]) {
+			if (!_activeStates[groupID]) {
 				return
 			}
-			var data:Object = _activeSets[groupID];
+			var data:Object = _activeStates[groupID];
 			data._active = false
 		}
 		
-		public function isSetActive(setID:String, groupID:String):Boolean {
-			if (!_activeSets[groupID]) {
+		public function isStateActive(setID:String, groupID:String):Boolean {
+			if (!_activeStates[groupID]) {
 				return false
 			}
 			
-			var data:Object = _activeSets[groupID];
+			var data:Object = _activeStates[groupID];
 			return data._active && data[setID]
 		}
 		
 		public function isGroupActive(groupID:String):Boolean {
-			if (!_activeSets[groupID]) {
+			if (!_activeStates[groupID]) {
 				return false
 			}
 			
-			var data:Object = _activeSets[groupID];
+			var data:Object = _activeStates[groupID];
 			return data._active
 		}
 		
@@ -264,15 +264,15 @@ package architecture
 		}
 		
 		
-		private function removeSystem(systemSetID:String, groupID:String = null):void {
-			for (var i:int = _systemSets.length - 1; i >= 0 && _systemSets.length != 0; i--) {
-				var systemSet:SystemContainer = _systemSets[i]
-				if (systemSet.containerID == systemSetID && (!groupID || systemSet.groupID == groupID)) {
-					systemSet.kill();
-					_systemSets.splice(i, 1)
+		private function removeState(stateID:String, groupID:String = null):void {
+			for (var i:int = _appStates.length - 1; i >= 0 && _appStates.length != 0; i--) {
+				var appState:AppState = _appStates[i]
+				if (appState.stateID == stateID && (!groupID || appState.groupID == groupID)) {
+					appState.kill();
+					_appStates.splice(i, 1)
 					
-					if (_activeSets[groupID]) {
-						_activeSets[groupID][systemSetID] = null
+					if (_activeStates[groupID]) {
+						_activeStates[groupID][stateID] = null
 					}
 					
 					return;
@@ -282,20 +282,20 @@ package architecture
 			return;
 		}
 		
-		private function getSystemSetByID(systemSetID:String, groupID:String = null):SystemContainer {
-			for each(var systemSet:SystemContainer in _systemSets) {
-				if (systemSet.containerID == systemSetID && (!groupID || systemSet.groupID == groupID)) {
-					return systemSet;
+		private function getSystemSetByID(stateID:String, groupID:String = null):AppState {
+			for each(var appState:AppState in _appStates) {
+				if (appState.stateID == stateID && (!groupID || appState.groupID == groupID)) {
+					return appState;
 				}
 			}
 			
 			return null;
 		}
 		
-		private function getSystemSetGroup(groupID:String):Vector.<SystemContainer> {
-			var systemSets:Vector.<SystemContainer> = new Vector.<SystemContainer>;
+		private function getStateGroup(groupID:String):Vector.<AppState> {
+			var systemSets:Vector.<AppState> = new Vector.<AppState>;
 			
-			for each(var sc:SystemContainer in _systemSets) {
+			for each(var sc:AppState in _appStates) {
 				if (sc.groupID == groupID) {
 					systemSets.push(sc)
 				}
@@ -320,7 +320,7 @@ package architecture
 			var groupList:Array = []
 			var tracker:Object = { }
 			
-			for each(var sc:SystemContainer in _systemSets) {
+			for each(var sc:AppState in _appStates) {
 				if (!tracker[sc.groupID]) {
 					groupList.push(sc.groupID)
 					tracker[sc.groupID] = true
@@ -332,11 +332,11 @@ package architecture
 		}
 		
 		
-		private function queryRequests(systemSet:SystemContainer):Vector.<DatabaseRequest> {
+		private function queryRequests(appState:AppState):Vector.<DatabaseRequest> {
 			var requests:Vector.<DatabaseRequest> = new Vector.<DatabaseRequest>;
 			
-			for (var i:int = 0; i < systemSet.numSystems; i++) {
-				var sys:ISystem = systemSet.getSystemByIndex(i);
+			for (var i:int = 0; i < appState.numSystems; i++) {
+				var sys:ISystem = appState.getSystemByIndex(i);
 				var req:DatabaseRequest = sys.dataRequest;
 				
 				requests.push(req);

@@ -7,7 +7,7 @@ package architecture
 	 * ...
 	 * @author Saykrd
 	 */
-	public class SystemContainer 
+	public class AppState 
 	{
 		
 		protected var systems:Vector.<ISystem>
@@ -16,7 +16,7 @@ package architecture
 		protected var group:String
 		private var _listenerData:Dictionary
 		
-		public function SystemContainer(identifier:String) 
+		public function AppState(identifier:String) 
 		{
 			systems = new Vector.<ISystem>
 			_listenerData = new Dictionary;
@@ -27,7 +27,7 @@ package architecture
 			if (!group) {
 				group = s
 			} else {
-				throw new Error("[SystemContainer] !! Container groupID cannot be set. Already set to " + group)
+				throw new Error("[AppState] !! Container groupID cannot be set. Already set to " + group)
 			}
 		}
 		
@@ -35,7 +35,7 @@ package architecture
 			return group
 		}
 		
-		public function get containerID():String {
+		public function get stateID():String {
 			return id;
 		}
 		
@@ -45,7 +45,7 @@ package architecture
 		
 		public function getSystemByIndex(index:int):ISystem {
 			if (index >= systems.length) {
-				throw new Error("[SystemContainer] !! Index " + index + " is out of range " + systems.length)
+				throw new Error("[AppState] !! Index " + index + " is out of range " + systems.length)
 			}
 			
 			return systems[index];

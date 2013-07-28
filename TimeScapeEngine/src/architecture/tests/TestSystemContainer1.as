@@ -1,6 +1,6 @@
 package architecture.tests 
 {
-	import architecture.SystemContainer;
+	import architecture.AppState;
 	import flash.events.Event;
 	import unitTesting.UnitTestVars;
 	
@@ -8,7 +8,7 @@ package architecture.tests
 	 * ...
 	 * @author Saykrd
 	 */
-	public class TestSystemContainer1 extends SystemContainer 
+	public class TestSystemContainer1 extends AppState 
 	{
 		
 		private var testSystem1:TestSystem1

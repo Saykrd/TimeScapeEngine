@@ -1,13 +1,13 @@
 package architecture.tests 
 {
-	import architecture.SystemContainer;
+	import architecture.AppState;
 	import flash.events.Event;
 	
 	/**
 	 * ...
 	 * @author Saykrd
 	 */
-	public class TestSystemContainer3 extends SystemContainer 
+	public class TestSystemContainer3 extends AppState 
 	{
 		
 		private var testSystem1:TestSystem1

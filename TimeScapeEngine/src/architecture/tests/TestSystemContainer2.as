@@ -1,12 +1,12 @@
 package architecture.tests 
 {
-	import architecture.SystemContainer;
+	import architecture.AppState;
 	
 	/**
 	 * ...
 	 * @author Saykrd
 	 */
-	public class TestSystemContainer2 extends SystemContainer 
+	public class TestSystemContainer2 extends AppState 
 	{
 		
 		private var testSystem3:TestSystem3
