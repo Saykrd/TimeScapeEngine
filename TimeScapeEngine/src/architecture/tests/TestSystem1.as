@@ -2,6 +2,7 @@ package architecture.tests
 {
 	import architecture.DatabaseRequest;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import interfaces.ISystem;
 	import unitTesting.UnitTestVars;
 	
@@ -26,6 +27,15 @@ package architecture.tests
 			return request;
 		}
 		
+		private var _dispatcher:EventDispatcher
+		public function get dispatcher():EventDispatcher {
+			if (!_dispatcher) {
+				_dispatcher = new EventDispatcher;
+			}
+			
+			return _dispatcher
+		}
+		
 		private var testDB1:TestDB1
 		private var testDB4:TestDB4
 		
@@ -41,10 +51,16 @@ package architecture.tests
 			}
 		}
 		
+		private function testDispatch():void {
+			UnitTestVars.inst.setTestVar("appHubTest", "dispatchedEvent1", true)
+			dispatcher.dispatchEvent(new Event("testSystemEvent1"))
+		}
+		
 		public function startup():void 
 		{
 			trace("starting up test system 1");
-			UnitTestVars.inst.setTestVar("appHubTest", "startupTestSystem1", true);
+			UnitTestVars.inst.setTestVar("appHubTest", "startupTestSystem1", true)
+			testDispatch();
 		}
 		
 		public function shutdown():void 

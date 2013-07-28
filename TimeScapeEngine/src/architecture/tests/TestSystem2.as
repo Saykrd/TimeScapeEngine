@@ -2,6 +2,7 @@ package architecture.tests
 {
 	import architecture.DatabaseRequest;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import interfaces.ISystem;
 	import unitTesting.UnitTestVars;
 	
@@ -24,6 +25,14 @@ package architecture.tests
 			var request:DatabaseRequest = new DatabaseRequest(this)
 			request.requestDataFrom(TestDB2, TestDB3)
 			return request;
+		}
+		
+		private var _dispatcher:EventDispatcher
+		public function get dispatcher():EventDispatcher {
+			if (!_dispatcher) {
+				_dispatcher = new EventDispatcher;
+			}
+			return _dispatcher
 		}
 		
 		private var testDB2:TestDB2

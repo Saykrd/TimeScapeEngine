@@ -52,7 +52,7 @@ package architecture
 		}
 		
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false ):void {
-			if (!type || !listener) {
+			if (!type || listener == null) {
 				throw new Error("[DataBaseDispatcher] !! Cannot add null listener or null type")
 			}
 			

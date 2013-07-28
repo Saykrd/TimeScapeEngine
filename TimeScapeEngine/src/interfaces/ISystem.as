@@ -1,6 +1,7 @@
 package interfaces 
 {
 	import architecture.DatabaseRequest;
+	import flash.events.EventDispatcher;
 	
 	/**
 	 * ...
@@ -13,7 +14,7 @@ package interfaces
 		function shutdown():void
 		function update():void
 		function get dataRequest():DatabaseRequest
-		
+		function get dispatcher():EventDispatcher
 	}
 	
 }

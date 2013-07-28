@@ -9,7 +9,7 @@ package util
 	public class Util 
 	{
 		
-		public static function clearDictionary(d):void {
+		public static function clearDictionary(d:Dictionary):void {
 			for (var k:* in d) {
 				delete d[k];
 			}

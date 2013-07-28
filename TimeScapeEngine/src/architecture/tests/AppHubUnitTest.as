@@ -39,6 +39,9 @@ package architecture.tests
 			var shutdownChecks:Array = []
 			var numSystems:int = 3
 			
+			var dispatchCheck:Boolean = UnitTestVars.inst.getTestVar("appHubTest", "dispatchedEvent1")
+			var listenCheck:Boolean = UnitTestVars.inst.getTestVar("appHubTest", "dispatchRecieved1")
+			
 			for (var i:int = 0; i <  numSystems; i++) {
 				setupChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "setupTestSystem" + (i + 1))
 				updateChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "updateTestSystem" + (i + 1))
@@ -46,7 +49,15 @@ package architecture.tests
 				shutdownChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "shutdownTestSystem" + (i + 1))
 			}
 			
-			for (var i:int = 0; i <  numSystems; i++) {
+			if (!dispatchCheck) {
+				fail("Event was not dispatched!");
+			}
+			
+			if (!listenCheck) {
+				fail("Dispatched event was not recieved!");
+			}
+			
+			for (i = 0; i <  numSystems; i++) {
 				if (!setupChecks[i]) {
 					fail("Test System " + (i + 1) + " was not setup properly!")
 				}
@@ -80,6 +91,9 @@ package architecture.tests
 			var shutdownChecks:Array = []
 			var numSystems:int = 3
 			
+			var dispatchCheck:Boolean = UnitTestVars.inst.getTestVar("appHubTest", "dispatchedEvent1")
+			var listenCheck:Boolean = UnitTestVars.inst.getTestVar("appHubTest", "dispatchRecieved1")
+			
 			for (var i:int = 0; i <  numSystems; i++) {
 				setupChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "setupTestSystem" + (i + 1))
 				updateChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "updateTestSystem" + (i + 1))
@@ -87,7 +101,16 @@ package architecture.tests
 				shutdownChecks[i] = UnitTestVars.inst.getTestVar("appHubTest", "shutdownTestSystem" + (i + 1))
 			}
 			
-			for (var i:int = 0; i <  numSystems; i++) {
+			if (!dispatchCheck) {
+				fail("Event was not dispatched!");
+			}
+			
+			if (!listenCheck) {
+				fail("Dispatched event was not recieved!");
+			}
+			
+			
+			for (i = 0; i <  numSystems; i++) {
 				if (!setupChecks[i]) {
 					fail("Test System " + (i + 1) + " was not setup properly!")
 				}

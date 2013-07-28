@@ -14,14 +14,12 @@ package architecture
 		
 		private var _databases:Vector.<ADatabase>
 		private var _systemSets:Vector.<SystemContainer>
-		private var _activeGroups:Dictionary
 		private var _activeSets:Dictionary
 		
 		public function ApplicationHub() 
 		{
 			_databases    = new Vector.<ADatabase>;
 			_systemSets   = new Vector.<SystemContainer>;
-			_activeGroups = new Dictionary
 			_activeSets   = new Dictionary
 		}
 			
@@ -178,7 +176,7 @@ package architecture
 			
 			var groups:Array = getGroupList()
 			for (var i:int = 0; i < groups.length; i++) {
-				var groupID = groups[i];
+				var groupID:String = groups[i];
 				endGroup(groupID)
 			}
 			
@@ -199,7 +197,7 @@ package architecture
 		}
 		
 		public function activateSet(setID:String, groupID:String):void {
-			var data = _activeSets[groupID] || { };
+			var data:Object = _activeSets[groupID] || { };
 			
 			data[setID] = true
 			
@@ -213,12 +211,12 @@ package architecture
 			if (!_activeSets[groupID]) {
 				return
 			}
-			var data = _activeSets[groupID];
+			var data:Object = _activeSets[groupID];
 			data[setID] = false
 		}
 		
 		public function activateGroup(groupID:String):void {
-			var data = _activeSets[groupID] || { };
+			var data:Object = _activeSets[groupID] || { };
 			
 			data._active = true
 			
@@ -231,7 +229,7 @@ package architecture
 			if (!_activeSets[groupID]) {
 				return
 			}
-			var data = _activeSets[groupID];
+			var data:Object = _activeSets[groupID];
 			data._active = false
 		}
 		
@@ -240,7 +238,7 @@ package architecture
 				return false
 			}
 			
-			var data = _activeSets[groupID];
+			var data:Object = _activeSets[groupID];
 			return data._active && data[setID]
 		}
 		
@@ -249,7 +247,7 @@ package architecture
 				return false
 			}
 			
-			var data = _activeSets[groupID];
+			var data:Object = _activeSets[groupID];
 			return data._active
 		}
 		

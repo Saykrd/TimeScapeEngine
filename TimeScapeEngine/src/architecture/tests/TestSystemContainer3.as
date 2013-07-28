@@ -1,6 +1,7 @@
 package architecture.tests 
 {
 	import architecture.SystemContainer;
+	import flash.events.Event;
 	
 	/**
 	 * ...
@@ -19,7 +20,12 @@ package architecture.tests
 			
 			testSystem1 = registerSystem(TestSystem1) as TestSystem1
 			testSystem2 = registerSystem(TestSystem2) as TestSystem2
+			addListener(testSystem1, "testSystemEvent1", testEvent1)
 			
+		}
+		
+		public function testEvent1(e:Event):void {
+			trace("On TestSystemEvent1!")
 		}
 		
 	}
