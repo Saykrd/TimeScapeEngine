@@ -23,7 +23,7 @@ package architecture
 			if (!group) {
 				group = s
 			} else {
-				throw new Error("[ADataHandler] !! Handler groupID cannot be set. Already set to " + group)
+				throw new Error("[SystemContainer] !! Container groupID cannot be set. Already set to " + group)
 			}
 		}
 		

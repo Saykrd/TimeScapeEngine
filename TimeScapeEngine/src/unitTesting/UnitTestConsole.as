@@ -1,5 +1,6 @@
 package unitTesting 
 {
+	import architecture.tests.AppHubUnitTest;
 	import flash.utils.getQualifiedClassName;
 	/**
 	 * ...
@@ -33,7 +34,7 @@ package unitTesting
 			trace("Unit Test Console Initialized")
 			//----------------------- ALL TESTS INITIALIZED HERE ------------------------------
 			
-			addTests(ExampleTest, ExampleTest2)
+			addTests(AppHubUnitTest)
 			
 			//---------------------------------------------------------------------------------
 		}
@@ -97,6 +98,7 @@ package unitTesting
 			trace("[UnitTestConsole] ================================================")
 			trace("[UnitTestConsole] ------------- UNIT TEST RESULTS ----------------")
 			trace("[UnitTestConsole] ================================================")
+			var i:int = 0
 			
 			if (_pass) {
 				trace("[UnitTestConsole] Unit test was a success!!")
@@ -106,7 +108,7 @@ package unitTesting
 			
 			if (_passedTests.length > 0) {
 				trace("[UnitTestConsole] The following tests have passed successfully:");
-				for (var i:int = 0; i < _passedTests.length; i++) {
+				for (i = 0; i < _passedTests.length; i++) {
 					var testID:String = _passedTests[i];
 					trace("[UnitTestConsole]   - ", testID);
 				}
@@ -114,7 +116,7 @@ package unitTesting
 			
 			if (_failedTests.length > 0) {
 				trace("[UnitTestConsole] The following tests have failed:");
-				for (var i:int = 0; i < _failedTests.length; i++) {
+				for (i = 0; i < _failedTests.length; i++) {
 					var failedTest:String = _failedTests[i];
 					trace("[UnitTestConsole]   - ", failedTest);
 				}

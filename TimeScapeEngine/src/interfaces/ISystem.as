@@ -1,19 +1,18 @@
 package interfaces 
 {
-	import architecture.DataHandlerRequest;
-	import flash.events.IEventDispatcher;
+	import architecture.DatabaseRequest;
 	
 	/**
 	 * ...
 	 * @author Saykrd
 	 */
-	public interface ISystem extends IEventDispatcher
+	public interface ISystem
 	{
-		function create(request:DataHandlerRequest):void
+		function setup(request:DatabaseRequest):void
 		function startup():void
 		function shutdown():void
 		function update():void
-		function get dataRequest():DataHandlerRequest
+		function get dataRequest():DatabaseRequest
 		
 	}
 	

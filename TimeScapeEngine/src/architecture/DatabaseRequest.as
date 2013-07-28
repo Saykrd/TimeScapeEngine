@@ -1,6 +1,7 @@
 package architecture 
 {
 	import flash.utils.Dictionary;
+	import flash.utils.getQualifiedClassName;
 	import interfaces.ISystem;
 	import interfaces.ITransient;
 	/**
@@ -11,7 +12,7 @@ package architecture
 	{
 		private var _requestList:Vector.<Class>
 		private var _subscriptionList:Vector.<Class>
-		private var _handlerList:Dictionary
+		private var _databaseList:Dictionary
 		private var _dispatcherList:Dictionary
 		private var _system:ISystem
 		
@@ -21,49 +22,51 @@ package architecture
 			_requestList = new Vector.<Class>
 			_subscriptionList = new Vector.<Class>;
 			_dispatcherList = new Dictionary;
-			_handlerList = new Dictionary;
+			_databaseList = new Dictionary;
 		}
 		
-		public function addRequests(...handlers):void {
-			for each(var cls:Class in handlers) {
+		public function requestDataFrom(...databases):void {
+			for each(var cls:Class in databases) {
 				_requestList.push(cls)
 			}
 		}
 		
-		public function addSubscriptions(...subscriptions):void {
+		public function subscribeTo(...subscriptions):void {
 			for each(var cls:Class in subscriptions) {
 				_subscriptionList.push(cls)
 			}
 		}
 		
-		public function addHandler(handler:ADatabase):void {
+		public function addDatabase(database:ADatabase):void {
+			trace("Adding database " + database + " to system " + _system)
 			for each(var cls:Class in _requestList) {
-				if (handler is cls) {
-					_handlerList[cls] = handler;
+				if (database is cls) {
+					_databaseList[cls] = database;
 					break;
 				}
 			}
 		}
 		
 		public function addDispatcher(dispatcher:DatabaseDispatcher):void {
-			for each(var cls:Class in _handlerList) {
-				if (dispatcher is cls) {
+			trace("Adding dispatcher " + dispatcher + " to system " + _system)
+			for each(var cls:Class in _subscriptionList) {
+				if (dispatcher.classID == getQualifiedClassName(cls)) {
 					_dispatcherList[cls] = dispatcher;
 					break;
 				}
 			}
 		}
 		
-		public function getHandler(cls:Class):ADatabase{
-			if (_handlerList[cls]) {
-				return _handlerList[cls]
+		public function getDatabase(cls:Class):ADatabase{
+			if (_databaseList[cls]) {
+				return _databaseList[cls]
 			}
 			
 			return null
 		}
 		
 		public function getDispatcher(cls:Class):DatabaseDispatcher {
-			if (_subscriptionList[cls]) {
+			if (_dispatcherList[cls]) {
 				return _dispatcherList[cls]
 			}
 			
@@ -72,7 +75,7 @@ package architecture
 		
 		public function get fulfilled():Boolean {
 			for each(var cls:Class in _requestList) {
-				if (!_handlerList[cls]) {
+				if (!_databaseList[cls]) {
 					return false
 				}
 			}
@@ -82,19 +85,19 @@ package architecture
 		
 		public function transact():void {
 			if (fulfilled) {
-				_system.create(this)
+				_system.setup(this)
 			}
 			dispose()
 		}
 		
 		public function dispose():void {
-			_requestList.splice(0)
-			_subscriptionList.splice(0)
+			_requestList.length = 0
+			_subscriptionList.length = 0
 			
 			_subscriptionList = null
 			_requestList = null
 			_dispatcherList = null
-			_handlerList = null
+			_databaseList = null
 			_system = null
 		}
 		

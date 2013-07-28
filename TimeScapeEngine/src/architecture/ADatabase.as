@@ -1,6 +1,7 @@
 package architecture 
 {
 	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 	import interfaces.IRecyclable;
 	import interfaces.ITransient;
 	
@@ -16,6 +17,7 @@ package architecture
 		public function ADatabase() 
 		{
 			dispatcher = new DatabaseDispatcher
+			dispatcher.classID = getQualifiedClassName(this)
 		}
 		
 		public function set groupID(s:String):void {

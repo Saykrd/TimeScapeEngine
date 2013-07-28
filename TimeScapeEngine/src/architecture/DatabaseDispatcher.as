@@ -12,10 +12,19 @@ package architecture
 	{
 		
 		private var _callRegistry:Dictionary;
+		private var _classID:String = "none"
 		
-		public function DatabaseDispatcher() 
+		public function DatabaseDispatcher()
 		{
 			_callRegistry = new Dictionary;
+		}
+		
+		public function set classID(id:String):void {
+			_classID = id
+		}
+		
+		public function get classID():String {
+			return _classID
 		}
 		
 		public function destroy():void {
