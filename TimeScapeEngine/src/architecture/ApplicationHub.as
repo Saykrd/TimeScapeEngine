@@ -103,10 +103,9 @@ package architecture
 			}
 			
 			appState.groupID = groupID;
+			_appStates.push(appState);
 			appState.initialize();
 			activateState(appState.stateID, groupID)
-			
-			_appStates.push(appState);
 			Util.dumpVector(_databases)
 		}
 		

@@ -1,7 +1,7 @@
 package unitTesting 
 {
 	/**
-	 * ...
+	 * Storage class for unit test results
 	 * @author Saykrd
 	 */
 	public class UnitTestResult 

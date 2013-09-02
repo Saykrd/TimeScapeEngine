@@ -3,7 +3,7 @@ package unitTesting
 	import architecture.tests.AppHubUnitTest;
 	import flash.utils.getQualifiedClassName;
 	/**
-	 * ...
+	 * Main Hub used to setup a unit testing environment. Used to run and interface with all registered unit tests.
 	 * @author Saykrd
 	 */
 	public class UnitTestConsole 
@@ -30,6 +30,9 @@ package unitTesting
 		private var _passedTests:Vector.<String> = new Vector.<String>
 		private var _failedTests:Vector.<String> = new Vector.<String>
 		
+		/**
+		 * Initiallizes all unit tests
+		 */
 		public function startup():void {
 			trace("Unit Test Console Initialized")
 			//----------------------- ALL TESTS INITIALIZED HERE ------------------------------
@@ -39,6 +42,10 @@ package unitTesting
 			//---------------------------------------------------------------------------------
 		}
 		
+		
+		/**
+		 * Runs all registered unit tests
+		 */
 		public function runAllTests():void {
 			trace("[UnitTestConsole] ================================================")
 			trace("[UnitTestConsole] ------------- STARTING UNIT TESTS --------------")
@@ -51,7 +58,10 @@ package unitTesting
 			printResults()
 		}
 		
-		
+		/**
+		 * Runs a unit test. Results are printed in the console
+		 * @param	test
+		 */
 		public function runTest(test:UnitTest):void {
 			test.addEventListener(UnitTestEvent.TEST_SUCCESS, onTestSuccess);
 			test.addEventListener(UnitTestEvent.TEST_FAILED, onTestFail);
@@ -74,6 +84,10 @@ package unitTesting
 			}
 		}
 		
+		/**
+		 * Registers multiple test to be executed
+		 * @param	...classes
+		 */
 		private function addTests(...classes):void {
 			for (var i:int = 0; i < classes.length; i++) {
 				var cls:Class = classes[i]
@@ -81,6 +95,11 @@ package unitTesting
 			}
 		}
 		
+		
+		/**
+		 * Registers a test to be executed
+		 * @param	testClass
+		 */
 		private function addTest(testClass:Class):void {
 			var test:* = new testClass(getQualifiedClassName(testClass));
 			if (test is UnitTest) {
@@ -88,12 +107,18 @@ package unitTesting
 			}
 		}
 		
+		/**
+		 * Clears results of last executed unit test run
+		 */
 		private function clearResults():void {
 			_passedTests.length = 0
 			_failedTests.length = 0
 			_pass = true
 		}
 		
+		/**
+		 * Dumps results of unit tests into the console
+		 */
 		private function printResults():void {
 			trace("[UnitTestConsole] ================================================")
 			trace("[UnitTestConsole] ------------- UNIT TEST RESULTS ----------------")

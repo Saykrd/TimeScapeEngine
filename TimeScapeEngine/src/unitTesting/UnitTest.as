@@ -4,7 +4,7 @@ package unitTesting
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	/**
-	 * ...
+	 * Base Abstract Unit Test Class. All tests should extend UnitTest and add whatever tests they need to run into the test queue.
 	 * @author Saykrd
 	 */
 	public class UnitTest extends EventDispatcher
@@ -28,6 +28,10 @@ package unitTesting
 		public function get testID():String {
 			return _testID;
 		}
+		
+		/**
+		 * Runs all registered tasks for this test
+		 */
 		
 		public function runTest():void {
 			trace("[UnitTest] ================================")
@@ -65,14 +69,26 @@ package unitTesting
 			complete()
 		}
 		
+		/**
+		 * Adds a task to the test queue.
+		 * @param	taskID
+		 * @param	task
+		 */
 		protected function addTask(taskID:String, task:Function):void {
 			_tasks.push( { taskID : taskID, task : task } )
 		}
 		
+		/**
+		 * Notifies that a task has been passed
+		 */
 		protected function pass():void {
 			_result.pass()
 		}
 		
+		/**
+		 * Notifies that a task has failed
+		 * @param	reason - A brief description as to why the task failed
+		 */
 		protected function fail(reason:String):void {
 			_result.fail(reason)
 		}

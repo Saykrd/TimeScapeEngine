@@ -5,18 +5,21 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\TimeScapeEngine.swf" />
-    <movie fps="30" />
+    <movie fps="60" />
     <movie width="800" />
     <movie height="600" />
-    <movie version="10" />
-    <movie minorVersion="1" />
+    <movie version="11" />
+    <movie minorVersion="5" />
     <movie platform="Flash Player" />
-    <movie background="#FFFFFF" />
+    <movie background="#9B9B9B" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
     <class path="..\..\DataLoad\src" />
+    <class path="lib\away3d-core-fp11-4.1.4-gold\src" />
+    <class path="lib\flashdynamix" />
+    <class path="..\..\Hi-ReS-Stats\src" />
   </classpaths>
   <!-- Build options -->
   <build>

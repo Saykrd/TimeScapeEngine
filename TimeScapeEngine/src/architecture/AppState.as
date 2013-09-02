@@ -15,6 +15,7 @@ package architecture
 		protected var id:String = "Unnamed System Set"
 		protected var group:String
 		private var _listenerData:Dictionary
+		private var _startMethod:Function
 		
 		public function AppState(identifier:String) 
 		{
@@ -136,8 +137,15 @@ package architecture
 					system.startup()
 				}
 			}
+			
+			if (_startMethod != null) {
+				_startMethod()
+			}
 		}
 		
+		public function setStartCommand(command:Function):void {
+			_startMethod = command
+		}
 		
 		public function kill():void {
 			removeAllListeners()
