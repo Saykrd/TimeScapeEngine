@@ -1,6 +1,7 @@
 package engineTesting 
 {
 	import architecture.ApplicationHub;
+	import engineTesting.practiceStates.SoundPractice;
 	
 	/**
 	 * ...
@@ -17,6 +18,12 @@ package engineTesting
 			endAll()
 			var state:WorldState = new WorldState()
 			run(state)
+		}
+		
+		public function soundPractice():void {
+			endAll();
+			var state:SoundPractice = new SoundPractice();
+			run(state);
 		}
 		
 	}
