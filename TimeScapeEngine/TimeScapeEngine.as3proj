@@ -20,6 +20,7 @@
     <class path="lib\away3d-core-fp11-4.1.4-gold\src" />
     <class path="lib\flashdynamix" />
     <class path="..\..\Hi-ReS-Stats\src" />
+    <class path="lib\starling\src" />
   </classpaths>
   <!-- Build options -->
   <build>

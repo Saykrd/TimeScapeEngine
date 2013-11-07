@@ -8,6 +8,7 @@ package engineTesting.practiceStates
 	import flash.events.SampleDataEvent;
 	import flash.media.Sound;
 	import flash.utils.ByteArray;
+	import systems.sound.SoundModule;
 	import util.Random;
 	
 	/**
@@ -38,16 +39,32 @@ package engineTesting.practiceStates
 		public const SAMPLES:int = 4096;
 		public var playbackSpeed:Number = 1.2;
 		public var sprite:Sprite
+		
+		public var soundModule:SoundModule = new SoundModule
+		
 		public function loaded(lObj:LoadObject):void {
-			mp3 = DataLoad.getSound("music");
+			/*mp3 = DataLoad.getSound("music");
 			data = new ByteArray;
 			//mp3.play()
 			//mp3.extract(data, mp3.length * 44.1);
 			data.position = 0//data.length - 8;
 			_sound = new Sound;
 			_sound.addEventListener(SampleDataEvent.SAMPLE_DATA, onSample);
-			_sound.play();
+			_sound.play();*/
 			
+			var music:Sound = DataLoad.getSound("music");
+			soundModule.addTrackToChannel(music, 0);
+			soundModule.addTrackToChannel(music, 1);
+			soundModule.addTrackToChannel(music, 2);
+			
+			soundModule.setMasterPlaybackSpeed(1);
+			soundModule.setChannelPlayBackSpeed(.25, 0);
+			soundModule.setChannelPlayBackSpeed(.5,  1);
+			soundModule.setChannelPlayBackSpeed(.75, 2);
+			
+			soundModule.playChannel(0);
+			soundModule.playChannel(1);
+			soundModule.playChannel(2);
 			
 			sprite = new Sprite;
 			Main.STAGE.addChild(sprite);
