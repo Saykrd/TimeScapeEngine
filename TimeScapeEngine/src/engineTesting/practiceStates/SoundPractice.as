@@ -54,17 +54,9 @@ package engineTesting.practiceStates
 			
 			var music:Sound = DataLoad.getSound("music");
 			soundModule.addTrackToChannel(music, 0);
-			soundModule.addTrackToChannel(music, 1);
-			soundModule.addTrackToChannel(music, 2);
 			
 			soundModule.setMasterPlaybackSpeed(1);
-			soundModule.setChannelPlayBackSpeed(.25, 0);
-			soundModule.setChannelPlayBackSpeed(.5,  1);
-			soundModule.setChannelPlayBackSpeed(.75, 2);
-			
 			soundModule.playChannel(0);
-			soundModule.playChannel(1);
-			soundModule.playChannel(2);
 			
 			sprite = new Sprite;
 			Main.STAGE.addChild(sprite);
