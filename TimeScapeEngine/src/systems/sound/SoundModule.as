@@ -15,8 +15,16 @@ package systems.sound
 		
 		private var _soundChannels:Vector.<SoundData>;
 		private var _channelEffects:Vector.<Object>;
+		
 		private var _masterVolume:Number        = 1;
+		public function get masterVolume():Number {
+			return _masterVolume;
+		}
+		
 		private var _masterPlaybackSpeed:Number = 1;
+		public function get masterPlaybackSpeed():Number {
+			return _masterPlaybackSpeed;
+		}
 		
 		public function SoundModule() 
 		{

@@ -14,7 +14,7 @@ package
 	import util.Time;
 	
 	/**
-	 * ...
+	 * ..
 	 * @author Saykrd
 	 */
 	public class Main extends Sprite 

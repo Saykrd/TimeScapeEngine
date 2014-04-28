@@ -55,13 +55,14 @@ package engineTesting.practiceStates
 			var music:Sound = DataLoad.getSound("music");
 			soundModule.addTrackToChannel(music, 0);
 			
-			soundModule.setMasterPlaybackSpeed(1);
+			soundModule.setMasterPlaybackSpeed(2);
 			soundModule.playChannel(0);
 			
 			sprite = new Sprite;
 			Main.STAGE.addChild(sprite);
 			
-			Main.STAGE.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void{playbackSpeed -= 0.1})
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, function(e:MouseEvent):void { soundModule.setMasterPlaybackSpeed(-1) } )
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_UP, function(e:MouseEvent):void{soundModule.setMasterPlaybackSpeed(1)})
 			
 		}
 		
