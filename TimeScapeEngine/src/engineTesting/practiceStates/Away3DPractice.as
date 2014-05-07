@@ -11,6 +11,7 @@ package engineTesting.practiceStates
 	import awayphysics.collision.shapes.AWPBoxShape;
 	import awayphysics.dynamics.AWPDynamicsWorld;
 	import awayphysics.dynamics.AWPRigidBody;
+	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import util.Random;
 	
@@ -61,6 +62,9 @@ package engineTesting.practiceStates
 			var floorShape:AWPBoxShape = new AWPBoxShape(1000, 5, 1000);
 			var floorRigidBody:AWPRigidBody = new AWPRigidBody(floorShape, floor, 0);
 			
+			floorRigidBody.friction = 1;
+			floorRigidBody.position = new Vector3D(0, 0, 0);
+			
 			var cubeMesh:Mesh = new Mesh(new CubeGeometry(50,50,50));
 			cubeMesh.material = new ColorMaterial();
 			cubeMesh.material.lightPicker = new StaticLightPicker([light]);
@@ -70,11 +74,25 @@ package engineTesting.practiceStates
 			var cubeRigidBody:AWPRigidBody = new AWPRigidBody(cubeShape);
 			world.addRigidBody(cubeRigidBody);
 			cubeRigidBody.friction = 1;
-			cubeRigidBody.position = new Vector3D( Random.randBetween(300, 300), Random.randBetween(300,300));
+			cubeRigidBody.position = new Vector3D(Math.random() * 600 - 300, 400, Math.random() * 600 - 300);
+			
+            Main.STAGE.addEventListener(MouseEvent.CLICK,addCube);
 		}
 		
+		private function addCube(e:MouseEvent):void {
+            var cubeMesh:Mesh=new Mesh(new CubeGeometry(50,50,50));
+            cubeMesh.material=new ColorMaterial();
+            cubeMesh.material.lightPicker = new StaticLightPicker([light]);
+            view.scene.addChild(cubeMesh);
+            var cubeShape:AWPBoxShape=new AWPBoxShape(50,50,50);
+            var cubeRigidBody:AWPRigidBody=new AWPRigidBody(cubeShape,cubeMesh,1); // notice the final "1" as it's dynamic
+            world.addRigidBody(cubeRigidBody);
+            cubeRigidBody.friction=1;
+            cubeRigidBody.position=new Vector3D(Math.random()*600-300,400,Math.random()*600-300);
+        }
+		
 		public function update():void {
-			world.step(1 / 60, 1);
+			world.step(1 / 30, 1);
 			view.render();
 		}
 		
