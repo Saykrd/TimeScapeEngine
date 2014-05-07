@@ -38,7 +38,7 @@ package
 			STAGE = stage
 			addChild(new Stats);
 			var hub:EngineHub = new EngineHub
-			hub.soundPractice();
+			hub.away3DPractice();
 			_appHub = hub
 			
 			//UnitTestConsole.inst.startup()

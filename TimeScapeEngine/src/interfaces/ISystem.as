@@ -7,12 +7,11 @@ package interfaces
 	 * ...
 	 * @author Saykrd
 	 */
-	public interface ISystem
+	public interface ISystem extends IAutomatable
 	{
 		function setup(request:DatabaseRequest):void
 		function startup():void
 		function shutdown():void
-		function update():void
 		function get dataRequest():DatabaseRequest
 		function get dispatcher():EventDispatcher
 	}

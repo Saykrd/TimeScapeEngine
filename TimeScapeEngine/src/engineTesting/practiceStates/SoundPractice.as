@@ -118,8 +118,8 @@ package engineTesting.practiceStates
 		
 		
 		
-		override public function update():void {
-			super.update();
+		public function update():void {
+			
 		}
 		
 	}

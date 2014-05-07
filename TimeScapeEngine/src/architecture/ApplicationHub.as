@@ -190,7 +190,8 @@ package architecture
 				var gid:String  = ss.groupID;
 				
 				if (isStateActive(ssid, gid)){
-					ss.update()
+					ss.onTick();
+					ss.postTick();
 				}
 			}
 		}

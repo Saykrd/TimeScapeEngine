@@ -28,8 +28,7 @@ package engineTesting
 			trace("STARTING")
 		}
 		
-		override public function update():void {
-			super.update();
+		public function update():void {
 		}
 		
 	}

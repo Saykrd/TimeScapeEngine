@@ -122,10 +122,23 @@ package architecture
 			}
 		}
 		
-		public function update():void {
+		public function onTick():void {
+			if (Object(this).hasOwnProperty("update")) {
+				Object(this)["update"]();
+			}
 			for (var i:int = 0; i < systems.length; i++) {
 				var system:ISystem = systems[i];
 				system.update()
+			}
+		}
+		
+		public function postTick():void {
+			if (Object(this).hasOwnProperty("postUpdate")) {
+				Object(this)["postUpdate"]();
+			}
+			for (var i:int = 0; i < systems.length; i++) {
+				var system:ISystem = systems[i];
+				system.postUpdate()
 			}
 		}
 		

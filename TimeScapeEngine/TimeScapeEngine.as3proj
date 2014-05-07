@@ -21,6 +21,7 @@
     <class path="..\..\Hi-ReS-Stats\src" />
     <class path="lib\starling\src" />
     <class path="lib\away3d-core-fp11-4.1.6\src" />
+    <class path="lib\awayphysics-core-fp11\AwayPhysics\src" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -57,7 +58,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\awayphysics-core-fp11\AwayPhysics.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

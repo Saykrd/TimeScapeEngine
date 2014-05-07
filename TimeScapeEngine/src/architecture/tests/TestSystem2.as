@@ -67,6 +67,10 @@ package architecture.tests
 			UnitTestVars.inst.setTestVar("appHubTest", "updateTestSystem2", true);
 		}
 		
+		public function postUpdate():void {
+			
+		}
+		
 	}
 
 }
