@@ -2,6 +2,7 @@ package engineTesting
 {
 	import architecture.ApplicationHub;
 	import engineTesting.practiceStates.Away3DPractice;
+	import engineTesting.practiceStates.AwayPhysicsTest;
 	import engineTesting.practiceStates.SoundPractice;
 	
 	/**
@@ -30,6 +31,12 @@ package engineTesting
 		public function away3DPractice():void {
 			endAll();
 			var state:Away3DPractice = new Away3DPractice("away3d");
+			run(state);
+		}
+		
+		public function awayPhysicsTest():void {
+			endAll();
+			var state:AwayPhysicsTest = new AwayPhysicsTest();
 			run(state);
 		}
 		

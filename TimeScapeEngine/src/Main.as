@@ -38,7 +38,7 @@ package
 			STAGE = stage
 			addChild(new Stats);
 			var hub:EngineHub = new EngineHub
-			hub.away3DPractice();
+			hub.awayPhysicsTest();
 			_appHub = hub
 			
 			//UnitTestConsole.inst.startup()
